@@ -273,6 +273,7 @@ class HtmlSelectDate extends Base {
 		}
 		// generate month <select> or <input>
 		if ($display_months) {
+			$dateFormatter = new \IntlDateFormatter('en_GB', \IntlDateFormatter::LONG, \IntlDateFormatter::NONE);
 			$_extra = '';
 			$_name = $field_array ? ($field_array . '[' . $prefix . 'Month]') : ($prefix . 'Month');
 			if ($all_extra) {
@@ -301,12 +302,17 @@ class HtmlSelectDate extends Base {
 			for ($i = 1; $i <= 12; $i++) {
 				$_val = sprintf('%02d', $i);
 				$_text = isset($month_names) ? smarty_function_escape_special_chars($month_names[$i]) :
-					($month_format === '%m' ? $_val : @strftime($month_format, $_month_timestamps[$i]));
-				$_value = $month_value_format === '%m' ? $_val : @strftime($month_value_format, $_month_timestamps[$i]);
+					($month_format === '%m' ? $_val : $dateFormatter->format($_month_timestamps[$i]));
+				$pattern = '/\d{1,2}\s+([a-zA-ZáéíóúüñÁÉÍÓÚÜÑ]+)\s+\d{4}/u';
+				// Match the pattern
+				if (preg_match($pattern, $_text, $matches)) {
+					// The month part is in the first capturing group
+					$_text = $matches[1] ?? $_val;
+				}
+				$_value = $month_value_format === '%m' ? $_val : $dateFormatter->format($_month_timestamps[$i]);
 				$_html_months .= '<option value="' . $_value . '"' . ($_val == $_month ? ' selected="selected"' : '') .
 					'>' . $_text . '</option>' . $option_separator;
-			}
-			$_html_months .= '</select>';
+			}			$_html_months .= '</select>';
 		}
 		// generate day <select> or <input>
 		if ($display_days) {
