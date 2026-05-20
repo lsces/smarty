@@ -1679,7 +1679,7 @@ class Smarty extends \Smarty\TemplateBase {
 	 */
 	public function writeFile($_filepath, $_contents) {
 		$_error_reporting = error_reporting();
-		error_reporting($_error_reporting & ~E_NOTICE & ~E_WARNING);
+		error_reporting($_error_reporting & ~E_DEPRECATED & ~E_NOTICE & ~E_WARNING);
 		$_dirpath = dirname($_filepath);
 		// if subdirs, create dir structure
 		if ($_dirpath !== '.') {

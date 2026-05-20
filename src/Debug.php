@@ -198,7 +198,7 @@ class Debug extends Data
         $debObj->security_policy = null;
         $debObj->debugging = false;
         $debObj->debugging_ctrl = 'NONE';
-        $debObj->error_reporting = E_ALL & ~E_NOTICE;
+        $debObj->error_reporting = E_ALL & ~E_DEPRECATED & ~E_NOTICE;
         $debObj->debug_tpl = $smarty->debug_tpl ?? 'file:' . __DIR__ . '/debug.tpl';
         $debObj->registered_resources = array();
         $debObj->escape_html = true;

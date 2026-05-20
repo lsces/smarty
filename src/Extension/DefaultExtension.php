@@ -559,8 +559,8 @@ class DefaultExtension extends Base {
 	public function smarty_modifier_implode($values, $separator = '')
 	{
 
-		trigger_error("Using implode is deprecated. " .
-			"Use join using the array first, separator second.", E_USER_DEPRECATED);
+//		trigger_error("Using implode is deprecated. " .
+//			"Use join using the array first, separator second.", E_USER_DEPRECATED);
 
 		if (is_array($separator)) {
 			return implode((string) ($values ?? ''), (array) $separator);
